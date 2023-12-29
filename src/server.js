@@ -1,15 +1,19 @@
-// src/server.js
-const express = require('express');
-const routes = require('./routes/routes');
-const DatabaseClient = require('./models/DatabaseClient');
+// server.js
+const express = require("express");
+const mongoose = require("mongoose");
+const config = require("./config");
+const routes = require("./routes");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use('/', routes);
+app.use(routes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    DatabaseClient; // Initialize database connection
-});
+mongoose.connect(config.database.connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("Connected to MongoDB");
+        app.listen(config.port, () => {
+            console.log(`Server running on http://localhost:${config.port}`);
+        });
+    })
+    .catch((error) => console.error("Error connecting to MongoDB:", error));

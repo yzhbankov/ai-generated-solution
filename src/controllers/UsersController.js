@@ -1,24 +1,17 @@
-// src/controllers/UsersController.js
-const express = require('express');
-const SaveUser = require('../usecases/SaveUser');
-const GetUsers = require('../usecases/GetUsers');
-const DeleteUser = require('../usecases/DeleteUser');
-
+// controllers/UsersController.js
+const express = require("express");
 const router = express.Router();
+const GetUsersUseCase = require("../usecases/GetUsersUseCase");
+const SaveUserUseCase = require("../usecases/SaveUserUseCase");
+const DeleteUserUseCase = require("../usecases/DeleteUserUseCase");
 
-router.post('/', async (req, res) => {
-    const user = await SaveUser.execute(req.body);
-    res.json(user);
-});
+// GET /api/users
+router.get("/", GetUsersUseCase);
 
-router.get('/', async (req, res) => {
-    const users = await GetUsers.execute();
-    res.json(users);
-});
+// POST /api/users
+router.post("/", SaveUserUseCase);
 
-router.delete('/:id', async (req, res) => {
-    await DeleteUser.execute(req.params.id);
-    res.json({ message: 'User deleted successfully' });
-});
+// DELETE /api/users/:id
+router.delete("/:id", DeleteUserUseCase);
 
 module.exports = router;

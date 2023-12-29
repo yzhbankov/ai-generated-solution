@@ -1,12 +1,9 @@
-// src/controllers/LoginController.js
-const express = require('express');
-const Login = require('../usecases/Login');
-
+// controllers/LoginController.js
+const express = require("express");
 const router = express.Router();
+const LoginUseCase = require("../usecases/LoginUseCase");
 
-router.post('/', async (req, res) => {
-    const token = await Login.execute(req.body);
-    res.json({ token });
-});
+// POST /api/login
+router.post("/", LoginUseCase);
 
 module.exports = router;
